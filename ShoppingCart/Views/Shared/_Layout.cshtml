@@ -1,0 +1,58 @@
+﻿@{
+    var sessionId = ViewData["sessionId"];
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Team 1A Online School</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @if (sessionId == null)
+                {
+                    @Html.ActionLink("Welcome to Team 1A's Online School! Please Login.", "Index", "Login",
+                         null, new { @class = "navbar-brand"})
+                }
+                @*@Html.ActionLink("Shopping Cart", "Index", "Login", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                @*check if the user is already loggin or not to show the different nav bar*@
+                <ul class="nav navbar-nav">
+                </ul>
+                @*use this nev bar if the user is logged in*@
+                <ul class="nav navbar-nav">
+                    @if (sessionId != null)
+                    {
+                        <li>@Html.ActionLink("View Products", "Gallery", "Product", new { sessionId = @sessionId }, null)</li>
+                        <li>@Html.ActionLink("My Cart", "ViewCart", "Cart", new { sessionId = @sessionId }, null)</li>
+                        <li>@Html.ActionLink("My Purchases", "ViewPurchases", "Purchases", new { sessionId = @sessionId }, null)</li>
+                        <li>@Html.ActionLink("Log Out", "Index", "Login", new { sessionId = @sessionId }, null)</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Shopping Cart with MVC - by Team 1A</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
